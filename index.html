@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNU SQL-Quest: The Data Mage's Journey</title>
+
+    <!-- Google Fonts for Fantasy Theme -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=MedievalSharp&family=Spectral:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Ambient Audio -->
+    <audio id="ambient-audio" loop>
+        <source src="assets/sounds/ambient.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Sound Effects -->
+    <audio id="success-audio">
+        <source src="assets/sounds/success.wav" type="audio/wav">
+    </audio>
+
+    <audio id="error-audio">
+        <source src="assets/sounds/error.wav" type="audio/wav">
+    </audio>
+
+    <audio id="page-turn-audio">
+        <source src="assets/sounds/page-turn.wav" type="audio/wav">
+    </audio>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Header -->
+        <header class="game-header">
+            <h1 class="game-title">⚔️ SNU SQL-Quest ⚔️</h1>
+            <p class="game-subtitle">The Data Mage's Journey</p>
+            <div class="audio-controls">
+                <button id="toggle-music" class="btn-audio">🔊 Music: ON</button>
+            </div>
+        </header>
+
+        <!-- Game Content -->
+        <div class="game-content">
+
+            <!-- Story Panel -->
+            <section class="story-panel">
+                <div class="panel-header">
+                    <h2>📜 Chronicle</h2>
+                    <span class="chapter-indicator" id="chapter-indicator">Chapter 1 of 5</span>
+                </div>
+                <div class="story-text" id="story-text">
+                    <p class="story-intro">
+                        <strong>Welcome, Apprentice Data-Mage!</strong>
+                    </p>
+                    <p>
+                        In the mystical realm of <em>Datarealm</em>, knowledge is power, and SQL is the
+                        ancient language that unlocks the secrets of the cosmos. You have been chosen
+                        by the Council of Archmages to embark on a perilous quest.
+                    </p>
+                    <p>
+                        The kingdom's sacred databases have been corrupted by dark forces. Only by
+                        mastering the spells of SELECT, WHERE, and JOIN can you restore order and
+                        become a true Data-Mage.
+                    </p>
+                    <p class="quest-prompt">
+                        <strong>⚡ Your Quest Begins...</strong>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Task Panel -->
+            <section class="task-panel">
+                <div class="panel-header">
+                    <h2>🎯 Current Quest</h2>
+                </div>
+                <div class="task-content">
+                    <p class="task-description" id="task-description">
+                        Loading your first quest...
+                    </p>
+                    <div class="hint-box" id="hint-box">
+                        <strong>💡 Hint:</strong> <span id="hint-text">Think carefully about the tables available to you.</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Schema Display -->
+            <section class="schema-panel">
+                <div class="panel-header">
+                    <h2>📚 Database Schema</h2>
+                    <button id="toggle-schema" class="btn-toggle">Show/Hide</button>
+                </div>
+                <div class="schema-content" id="schema-content">
+                    <div class="schema-table">
+                        <h3>Table: Kingdoms</h3>
+                        <pre>kingdom_id (INTEGER)
+kingdom_name (TEXT)
+ruler (TEXT)
+population (INTEGER)
+magic_level (INTEGER)</pre>
+                    </div>
+
+                    <div class="schema-table">
+                        <h3>Table: Inventory</h3>
+                        <pre>item_id (INTEGER)
+item_name (TEXT)
+item_type (TEXT)
+damage (INTEGER)
+defense (INTEGER)
+magic_power (INTEGER)
+kingdom_id (INTEGER)</pre>
+                    </div>
+
+                    <div class="schema-table">
+                        <h3>Table: Monsters</h3>
+                        <pre>monster_id (INTEGER)
+monster_name (TEXT)
+species (TEXT)
+health (INTEGER)
+attack_power (INTEGER)
+kingdom_id (INTEGER)</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SQL Terminal -->
+            <section class="terminal-panel">
+                <div class="panel-header">
+                    <h2>🔮 SQL Spellcasting Terminal</h2>
+                </div>
+                <div class="terminal-content">
+                    <textarea
+                        id="sql-input"
+                        class="sql-input"
+                        placeholder="Type your SQL spell here... (e.g., SELECT * FROM Kingdoms;)"
+                        spellcheck="false"
+                    ></textarea>
+                    <div class="terminal-actions">
+                        <button id="execute-btn" class="btn-primary">✨ Cast Spell (Execute)</button>
+                        <button id="clear-btn" class="btn-secondary">🗑️ Clear</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Panel -->
+            <section class="results-panel">
+                <div class="panel-header">
+                    <h2>📊 Query Results</h2>
+                </div>
+                <div class="results-content" id="results-content">
+                    <p class="results-placeholder">Your query results will appear here...</p>
+                </div>
+            </section>
+
+            <!-- Feedback Panel -->
+            <section class="feedback-panel" id="feedback-panel" style="display: none;">
+                <div class="feedback-content" id="feedback-content">
+                    <!-- Dynamic feedback messages -->
+                </div>
+            </section>
+
+            <!-- Navigation -->
+            <section class="navigation-panel">
+                <button id="next-btn" class="btn-next" style="display: none;">
+                    Continue to Next Quest →
+                </button>
+                <button id="restart-btn" class="btn-restart" style="display: none;">
+                    🔄 Restart Quest
+                </button>
+            </section>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="game-footer">
+            <p>Created with 🧙‍♂️ magic and SQL | SNU SQL-Quest © 2025</p>
+            <p class="footer-note">Powered by <a href="https://github.com/sql-js/sql.js" target="_blank">sql.js</a></p>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <!-- Load sql.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+
+    <!-- Game Scripts -->
+    <script src="sql-logic.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
