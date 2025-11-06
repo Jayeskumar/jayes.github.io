@@ -569,7 +569,9 @@ section:hover {
     background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
     border: 3px solid var(--accent-gold);
     border-radius: var(--radius-lg);
-    max-width: 600px;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .victory-content h1 {
@@ -578,10 +580,54 @@ section:hover {
     color: var(--accent-gold);
     margin-bottom: var(--spacing-md);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: glow 2s ease-in-out infinite;
 }
 
 .victory-content p {
     font-size: 1.2rem;
     color: var(--text-light);
     line-height: 1.8;
+}
+
+/* Epilogue specific styles */
+.epilogue-text {
+    text-align: left;
+    padding: var(--spacing-md);
+    background: rgba(10, 14, 39, 0.5);
+    border-radius: var(--radius-md);
+    margin: var(--spacing-md) 0;
+}
+
+.epilogue-intro {
+    font-size: 1.3rem;
+    color: var(--accent-gold);
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.epilogue-achievement {
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px solid var(--accent-gold);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+}
+
+.epilogue-final {
+    text-align: center;
+    font-size: 1.3rem;
+    padding: var(--spacing-md);
+    background: linear-gradient(135deg, rgba(157, 78, 221, 0.3), rgba(76, 201, 240, 0.3));
+    border-radius: var(--radius-md);
+    border: 2px solid var(--accent-gold);
+    margin: var(--spacing-md) 0;
+}
+
+@keyframes glow {
+    0%, 100% {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px var(--accent-gold);
+    }
+    50% {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-gold), 0 0 30px var(--accent-gold);
+    }
 }
