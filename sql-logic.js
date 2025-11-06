@@ -278,13 +278,14 @@ function populateTables() {
         [1, 'Agan', 'O+', '1995-03-15', '2024-01-10', 101],
         [2, 'Kural', 'O+', '1997-06-20', '2023-12-15', 102],
         [3, 'Madasamy', 'AB+', '2024-01-01', '2024-01-05', 103],
-        [4, 'Kumaran', 'AB+', '1993-08-10', '2023-11-20', 104],
-        [5, 'Selvi', 'B+', '1994-12-05', '2024-02-01', 105],
-        [6, 'Rajan', 'A+', '1992-04-25', '2024-01-15', 106],
-        [7, 'Meena', 'O-', '1996-09-30', '2024-02-10', 107],
-        [8, 'Prakash', 'AB-', '1991-11-12', '2023-12-20', 108],
-        [9, 'Lakshmi', 'A-', '1998-02-14', '2024-01-25', 109],
-        [10, 'Vijay', 'B-', '1990-07-08', '2024-02-05', 110]
+        [4, 'Pari', 'AB+', '1994-05-18', '2023-12-18', 104],
+        [5, 'Athiyamaan', 'A+', '1965-03-10', '2024-01-20', 105],
+        [6, 'Selvi', 'B+', '1994-12-05', '2024-02-01', 106],
+        [7, 'Rajan', 'A+', '1992-04-25', '2024-01-15', 107],
+        [8, 'Meena', 'O-', '1996-09-30', '2024-02-10', 108],
+        [9, 'Prakash', 'AB-', '1991-11-12', '2023-12-20', 109],
+        [10, 'Lakshmi', 'A-', '1998-02-14', '2024-01-25', 110],
+        [11, 'Vijay', 'B-', '1990-07-08', '2024-02-05', 111]
     ];
 
     patientsData.forEach(data => {
@@ -298,11 +299,13 @@ function populateTables() {
     const medicalRecordsData = [
         [1, 1, 'Regular Checkup', 'Routine examination', 'Dr. Ramanathan', '2024-01-10'],
         [2, 2, 'Prenatal Care', 'Pregnancy monitoring', 'Dr. Lakshmi', '2023-12-15'],
-        [3, 3, 'Newborn Care', 'Post-birth examination', 'Dr. Kumar', '2024-01-05'],
-        [4, 4, 'Blood Test', 'Routine blood analysis', 'Dr. Selvan', '2023-11-20'],
-        [5, 5, 'Vaccination', 'Annual flu shot', 'Dr. Priya', '2024-02-01'],
+        [3, 3, 'Newborn Care', 'Post-birth examination with 6 fingers', 'Dr. Kumar', '2024-01-05'],
+        [4, 4, 'Blood Test', 'Routine blood analysis', 'Dr. Selvan', '2023-12-18'],
+        [5, 5, 'Heart Disease', 'Cardiac examination', 'Dr. Priya', '2024-01-20'],
         [6, 2, 'Delivery', 'Normal delivery of baby boy', 'Dr. Lakshmi', '2024-01-01'],
-        [7, 3, 'Blood Group Test', 'Confirmed AB+ blood group', 'Dr. Kumar', '2024-01-06']
+        [7, 3, 'Blood Group Test', 'Confirmed AB+ blood group', 'Dr. Kumar', '2024-01-06'],
+        [8, 4, 'General Checkup', 'Pre-relationship medical examination', 'Dr. Ramanathan', '2023-12-18'],
+        [9, 6, 'Vaccination', 'Annual flu shot', 'Dr. Priya', '2024-02-01']
     ];
 
     medicalRecordsData.forEach(data => {
@@ -314,13 +317,14 @@ function populateTables() {
 
     // Insert data into BloodDonations
     const bloodDonationsData = [
-        [1, 'Kumaran', 'AB+', 'Emergency Pool', '2023-10-15', 'Chennai General Hospital'],
+        [1, 'Pari', 'AB+', 'Emergency Pool', '2023-10-15', 'Chennai General Hospital'],
         [2, 'Rajan', 'A+', 'Blood Bank', '2023-11-01', 'Chennai General Hospital'],
         [3, 'Prakash', 'AB-', 'Emergency Pool', '2023-11-10', 'Chennai General Hospital'],
         [4, 'Vijay', 'B-', 'Blood Bank', '2023-12-01', 'Chennai General Hospital'],
         [5, 'Meena', 'O-', 'Universal Donor Pool', '2023-12-10', 'Chennai General Hospital'],
         [6, 'Selvi', 'B+', 'Blood Bank', '2024-01-05', 'Chennai General Hospital'],
-        [7, 'Kumaran', 'AB+', 'Kural', '2023-12-20', 'Chennai General Hospital']
+        [7, 'Pari', 'AB+', 'Kural', '2023-12-20', 'Chennai General Hospital'],
+        [8, 'Agan', 'O+', 'Blood Bank', '2024-01-10', 'Chennai General Hospital']
     ];
 
     bloodDonationsData.forEach(data => {
@@ -332,12 +336,12 @@ function populateTables() {
 
     // Insert data into FamilyRelations
     const familyRelationsData = [
-        [1, 'Agan', 'O+', 'Unknown', 'Unknown', 'Madasamy'],
-        [2, 'Kural', 'O+', 'Selvam', 'Kamala', 'Madasamy'],
-        [3, 'Madasamy', 'AB+', 'Agan', 'Kural', null],
-        [4, 'Kumaran', 'AB+', 'Murugan', 'Saraswathi', null],
+        [1, 'Agan', 'O+', 'Ravi', 'Meera', null],
+        [2, 'Kural', 'O+', 'Athiyamaan', 'Kamala', 'Madasamy'],
+        [3, 'Madasamy', 'AB+', 'Pari', 'Kural', null],
+        [4, 'Pari', 'AB+', 'Murugan', 'Saraswathi', 'Madasamy'],
         [5, 'Selvi', 'B+', 'Raman', 'Parvathi', null],
-        [6, 'Selvam', 'A+', null, null, 'Kural'],
+        [6, 'Athiyamaan', 'A+', 'Selvam', 'Lakshmi', 'Kural'],
         [7, 'Kamala', 'B+', null, null, 'Kural']
     ];
 

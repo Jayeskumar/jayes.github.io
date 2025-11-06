@@ -16,6 +16,7 @@ let executeBtn, clearBtn, nextBtn, restartBtn, toggleSchemaBtn, toggleMusicBtn;
 let schemaContent;
 let ambientAudio, successAudio, errorAudio, pageTurnAudio;
 let gameSelection, gameContent, backToSelectionBtn;
+let conceptBox, conceptTitle, conceptDescription, conceptExample;
 
 // Game Definitions
 const games = {
@@ -338,27 +339,33 @@ const allChapters = [
     // TAMIL MOVIE EPISODE - Hospital Database Mystery
     // ============================================
     {
-        title: "Mystery Episode 1: The Suspicious Father",
+        title: "Mystery Episode 1: The Genetic Puzzle",
+        concept: {
+            title: "SELECT with WHERE and IN Clause",
+            description: "The SELECT statement retrieves data from a table. The WHERE clause filters rows based on conditions. The IN operator allows you to specify multiple values in a WHERE clause, making it easier to filter for multiple specific values.",
+            example: "SELECT column1, column2 FROM table_name WHERE column_name IN ('value1', 'value2', 'value3');"
+        },
         story: `
-            <p class="story-intro"><strong>Aganum Innoruthan Maganum - Episode 1: The Suspicious Father</strong></p>
+            <p class="story-intro"><strong>Dude: Episode 1 - The Genetic Puzzle</strong></p>
             <p>
-                The hospital corridors are quiet as Kural's father, a retired detective, sits in his office
-                staring at medical reports with deep concern. His daughter Kural and son-in-law Agan both
-                have O+ blood group, but their newborn son Madasamy has AB+ blood group.
+                Athiyamaan, a powerful politician and Kural's father, sits in his private study staring at medical reports.
+                His daughter Kural married her cousin Agan in a family wedding, but something troubles him deeply.
             </p>
             <p>
-                "This is impossible according to basic genetics," he mutters. "Two O+ parents cannot
-                have an AB+ child. Something is wrong here."
+                "According to these hospital records, both Agan and Kural have O+ blood group," he whispers to himself,
+                holding the birth certificate of their newborn son Madasamy. "But the child has AB+ blood group. This is
+                genetically impossible!"
             </p>
             <p>
-                He opens the hospital database terminal with determination in his eyes.
+                As someone who once killed his own sister for marrying outside their caste, Athiyamaan knows the importance
+                of bloodlines. He opens the hospital database, his hands trembling with both anger and fear.
             </p>
             <p class="quest-prompt">
-                <strong>🔍 First, let's verify the blood groups of the family members in our database.</strong>
+                <strong>🔍 Query the database to verify the blood groups of the three family members.</strong>
             </p>
         `,
-        task: "Query the Patients table to find the blood groups of Agan, Kural, and Madasamy. Select patient_name and blood_group columns only.",
-        hint: "Use WHERE with IN or OR: SELECT patient_name, blood_group FROM Patients WHERE patient_name IN ('Agan', 'Kural', 'Madasamy')",
+        task: "Query the Patients table to find the blood groups of Agan, Kural, and Madasamy. Select only the patient_name and blood_group columns. Use the IN clause to filter for these three patients.",
+        hint: "Use WHERE with IN: SELECT patient_name, blood_group FROM Patients WHERE patient_name IN ('Agan', 'Kural', 'Madasamy')",
         verifyFunction: (result) => {
             return result.success &&
                    result.columns.length === 2 &&
@@ -366,26 +373,35 @@ const allChapters = [
                    result.columns.includes('patient_name') &&
                    result.columns.includes('blood_group');
         },
-        successMessage: "The records confirm it: Agan (O+), Kural (O+), and Madasamy (AB+). The father's suspicions are correct - something doesn't add up genetically!"
+        successMessage: "The database confirms: Agan (O+), Kural (O+), Madasamy (AB+). Athiyamaan's worst fears are confirmed - his daughter's child cannot biologically be from Agan!"
     },
     {
-        title: "Mystery Episode 2: Investigating Medical Records",
+        title: "Mystery Episode 2: The Medical Trail",
+        concept: {
+            title: "INNER JOIN - Combining Related Tables",
+            description: "JOIN (or INNER JOIN) combines rows from two or more tables based on a related column. It returns only the rows where there is a match in both tables. This is essential for connecting related data stored in different tables.",
+            example: "SELECT t1.column1, t2.column2\nFROM table1 t1\nJOIN table2 t2 ON t1.id = t2.foreign_id\nWHERE t1.condition = 'value';"
+        },
         story: `
-            <p class="story-intro"><strong>Aganum Innoruthan Maganum - Episode 2: Investigating Medical Records</strong></p>
+            <p class="story-intro"><strong>Dude: Episode 2 - The Medical Trail</strong></p>
             <p>
-                Kural's father leans back in his chair, deep in thought. "I need to check Kural's
-                medical history, especially around the time of delivery. Maybe there's a clue here."
+                Athiyamaan calls his loyal assistant. "I need complete medical records for Kural, especially around
+                the time of delivery," he demands. His mind races back to the wedding day when Kural married Agan.
             </p>
             <p>
-                He starts searching through the medical records database, looking for any information
-                about Kural's pregnancy and delivery.
+                "The records are scattered across multiple database tables," the assistant explains. "Patient information
+                is in one table, medical records in another. We'll need to connect them."
+            </p>
+            <p>
+                Athiyamaan recalls how Agan, his nephew, had helped Kural with her event-planning business "Surprise Dude."
+                They were close as cousins, but was there more to the story? He needs to examine every medical detail.
             </p>
             <p class="quest-prompt">
-                <strong>🔍 Find all medical records related to Kural!</strong>
+                <strong>🔍 Use JOIN to connect patient and medical record tables and find all of Kural's medical history.</strong>
             </p>
         `,
-        task: "Join the Patients and MedicalRecords tables to find all medical records for Kural. Show patient_name, diagnosis, treatment, doctor_name, and record_date.",
-        hint: "Use JOIN: SELECT p.patient_name, mr.diagnosis, mr.treatment, mr.doctor_name, mr.record_date FROM MedicalRecords mr JOIN Patients p ON mr.patient_id = p.patient_id WHERE p.patient_name = 'Kural'",
+        task: "Join the Patients and MedicalRecords tables to find all medical records for Kural. Display patient_name, diagnosis, treatment, doctor_name, and record_date. Use table aliases to make your query cleaner.",
+        hint: "Use JOIN with aliases: SELECT p.patient_name, mr.diagnosis, mr.treatment, mr.doctor_name, mr.record_date FROM MedicalRecords mr JOIN Patients p ON mr.patient_id = p.patient_id WHERE p.patient_name = 'Kural'",
         verifyFunction: (result) => {
             return result.success &&
                    result.columns.length === 5 &&
@@ -397,89 +413,127 @@ const allChapters = [
                        return row[nameIndex] === 'Kural';
                    });
         },
-        successMessage: "Interesting! You found records of Kural's prenatal care and delivery. Dr. Lakshmi handled both. But this doesn't explain the blood group mystery yet..."
+        successMessage: "The records reveal Kural's prenatal care and delivery history, all handled by Dr. Lakshmi. But nothing here explains how a child with AB+ blood was born to O+ parents..."
     },
     {
-        title: "Mystery Episode 3: The Blood Donation Trail",
+        title: "Mystery Episode 3: The Blood Connection",
+        concept: {
+            title: "WHERE Clause with Comparison Operators",
+            description: "The WHERE clause filters database records based on specified conditions. You can use comparison operators (=, !=, <, >, <=, >=) and logical operators (AND, OR, NOT) to create complex filtering conditions. This is fundamental for finding specific data in large datasets.",
+            example: "SELECT column1, column2\nFROM table_name\nWHERE condition1 = 'value'\n  AND condition2 > 100;"
+        },
         story: `
-            <p class="story-intro"><strong>Aganum Innoruthan Maganum - Episode 3: The Blood Donation Trail</strong></p>
+            <p class="story-intro"><strong>Dude: Episode 3 - The Blood Connection</strong></p>
             <p>
-                "Wait a minute..." Kural's father suddenly sits up straight. "What if Kural needed
-                a blood transfusion during delivery? Let me check the blood donation records!"
+                "There's something I'm missing," Athiyamaan mutters, pacing his study. He recalls Kural telling him
+                about her relationship with someone named Pari - a man from a different caste whom she loved before
+                the arranged marriage to Agan.
             </p>
             <p>
-                He opens the blood donations database, his hands trembling slightly. "If there was
-                a complication during delivery, there should be a record of blood donation..."
+                "Wait!" His eyes widen. "What if there was a blood donation during delivery? If Kural had complications,
+                someone would have donated blood. Let me check who donated to her!"
+            </p>
+            <p>
+                He remembers trying to stop Kural from eloping with Pari, even fabricating stories and using his
+                political influence. But what if Pari was still in the picture?
             </p>
             <p class="quest-prompt">
-                <strong>🔍 Find all blood donations where the recipient was Kural!</strong>
+                <strong>🔍 Query the blood donation records to find who donated blood to Kural and when.</strong>
             </p>
         `,
-        task: "Query the BloodDonations table to find donations where recipient_name is 'Kural'. Show donor_name, donor_blood_group, and donation_date.",
-        hint: "Use WHERE: SELECT donor_name, donor_blood_group, donation_date FROM BloodDonations WHERE recipient_name = 'Kural'",
+        task: "Query the BloodDonations table to find all donations where the recipient was Kural. Show donor_name, donor_blood_group, donation_date, and hospital_location. Order by donation_date.",
+        hint: "Use WHERE clause: SELECT donor_name, donor_blood_group, donation_date, hospital_location FROM BloodDonations WHERE recipient_name = 'Kural' ORDER BY donation_date",
         verifyFunction: (result) => {
             return result.success &&
-                   result.columns.length === 3 &&
+                   result.columns.length === 4 &&
                    result.rowCount >= 1 &&
                    result.values.some(row => {
                        const donorIndex = result.columns.indexOf('donor_name');
                        const bloodGroupIndex = result.columns.indexOf('donor_blood_group');
-                       return row[donorIndex] === 'Kumaran' && row[bloodGroupIndex] === 'AB+';
+                       return row[donorIndex] === 'Pari' && row[bloodGroupIndex] === 'AB+';
                    });
         },
-        successMessage: "Aha! A breakthrough! Kumaran donated AB+ blood to Kural on December 20, 2023 - just before the delivery! But this still doesn't explain the baby's blood group..."
+        successMessage: "Shocking discovery! Pari donated AB+ blood to Kural on December 20, 2023 - just days before Madasamy's birth! This connection between Pari and the child's blood group cannot be a coincidence!"
     },
     {
-        title: "Mystery Episode 4: The Shocking Truth",
+        title: "Mystery Episode 4: The Truth Emerges",
+        concept: {
+            title: "Filtering and Sorting Results",
+            description: "Combining WHERE clause for filtering with ORDER BY for sorting allows you to find and organize specific data efficiently. You can order results in ascending (ASC) or descending (DESC) order. This is crucial for data analysis and finding patterns.",
+            example: "SELECT column1, column2, column3\nFROM table_name\nWHERE condition = 'value'\nORDER BY column2 DESC, column1 ASC;"
+        },
         story: `
-            <p class="story-intro"><strong>Aganum Innoruthan Maganum - Episode 4: The Shocking Truth</strong></p>
+            <p class="story-intro"><strong>Dude: Episode 4 - The Truth Emerges</strong></p>
             <p>
-                Kural's father's eyes widen as the pieces start falling into place. "Wait... if the
-                baby has AB+ blood group, and both supposed parents have O+ blood group, then..."
+                Athiyamaan's heart pounds as he connects the pieces. "Pari has AB+ blood group... Madasamy has AB+ blood group...
+                and Pari donated blood to Kural during delivery," he says aloud, his voice trembling with rage.
             </p>
             <p>
-                "I need to check who else has AB+ blood group in this hospital. The biological father
-                must have either A, B, or AB blood group for this to be possible!"
+                "I need to find everyone with AB+ blood in this hospital database. If Pari is the biological father,
+                the genetics make perfect sense - AB+ from Pari, O+ from Kural could produce AB+ in the child!"
+            </p>
+            <p>
+                His mind flashes back to when he publicly confessed to killing his sister for marrying outside caste,
+                only to retract it as a "prank" to save his political career. Now his own daughter has betrayed the family honor.
             </p>
             <p class="quest-prompt">
-                <strong>🔍 Find all patients with AB+ blood group to identify potential biological fathers!</strong>
+                <strong>🔍 Find all patients with AB+ blood group and analyze the connection.</strong>
             </p>
         `,
-        task: "Query the Patients table to find all patients with blood_group = 'AB+'. Show patient_name, blood_group, and date_of_birth. Order by admission_date.",
-        hint: "Use WHERE: SELECT patient_name, blood_group, date_of_birth FROM Patients WHERE blood_group = 'AB+' ORDER BY admission_date",
+        task: "Query the Patients table to find all patients with AB+ blood group. Show patient_name, blood_group, date_of_birth, and admission_date. Order by admission_date to see the timeline of events.",
+        hint: "Use WHERE and ORDER BY: SELECT patient_name, blood_group, date_of_birth, admission_date FROM Patients WHERE blood_group = 'AB+' ORDER BY admission_date",
         verifyFunction: (result) => {
             return result.success &&
                    result.rowCount >= 2 &&
+                   result.columns.includes('admission_date') &&
                    result.values.some(row => {
                        const nameIndex = result.columns.indexOf('patient_name');
-                       return row[nameIndex] === 'Kumaran' || row[nameIndex] === 'Madasamy';
+                       return row[nameIndex] === 'Pari' || row[nameIndex] === 'Madasamy';
                    });
         },
-        successMessage: "The database reveals: Kumaran has AB+ blood group! He donated blood to Kural just before delivery. Could there be a connection beyond just blood donation?"
+        successMessage: "The evidence is undeniable! Pari (AB+) was admitted December 18, then donated blood to Kural on December 20, and Madasamy (AB+) was born January 1. The timeline and genetics prove Pari is the biological father!"
     },
     {
-        title: "Mystery Episode 5: Uncovering the Family Secret",
+        title: "Mystery Episode 5: The Family Truth",
+        concept: {
+            title: "Complex Queries with Multiple Conditions",
+            description: "Advanced SQL queries often require filtering on multiple conditions and displaying relationship data. Understanding parent-child relationships in data, using foreign keys, and connecting multiple pieces of information is essential for solving real-world data problems. This episode demonstrates how databases can reveal complex family relationships and genetic patterns.",
+            example: "SELECT person_name, blood_group, \n       parent1_name, parent2_name, \n       child_name\nFROM FamilyRelations\nWHERE blood_group = 'AB+'\n  OR child_name IS NOT NULL;"
+        },
         story: `
-            <p class="story-intro"><strong>Aganum Innoruthan Maganum - Episode 5: The Final Investigation</strong></p>
+            <p class="story-intro"><strong>Dude: Episode 5 - The Family Truth</strong></p>
             <p>
-                The father takes a deep breath. "This is delicate, but I must know the complete truth.
-                Let me check the family relations database to see if there are any hidden connections."
+                Athiyamaan confronts Kural with all the evidence. Through tears, she confesses everything: her love for Pari,
+                the pregnancy, Agan's selfless help in raising Madasamy as his own son, and the planned escape to Canada that
+                never happened.
             </p>
             <p>
-                "If my suspicions are correct, this will reveal a truth that could shatter or explain everything."
+                "Madasamy is Pari's biological son," she admits. "Agan knew from the beginning and helped me. He even married me
+                to protect our family's honor, and took care of the baby with six fingers as if he were his own."
+            </p>
+            <p>
+                Enraged by the betrayal, Athiyamaan orders his men to kill both Agan and the child. But in a twist of redemption,
+                when Athiyamaan suffers a heart attack, little Madasamy saves him by calling for help - a plan orchestrated by Agan
+                to help the politician face his guilt.
             </p>
             <p class="quest-prompt">
-                <strong>🔍 Find all people with AB+ blood group in the FamilyRelations table and their children!</strong>
+                <strong>🔍 Query the family relations database to see the complete truth of Madasamy's parentage.</strong>
             </p>
         `,
-        task: "Query the FamilyRelations table to find all people with blood_group = 'AB+'. Show person_name, blood_group, parent1_name, parent2_name, and child_name.",
-        hint: "Use WHERE: SELECT person_name, blood_group, parent1_name, parent2_name, child_name FROM FamilyRelations WHERE blood_group = 'AB+'",
+        task: "Query the FamilyRelations table to find all people with AB+ blood group. Show person_name, blood_group, parent1_name, parent2_name, and child_name to reveal the true family connections.",
+        hint: "Use WHERE to filter: SELECT person_name, blood_group, parent1_name, parent2_name, child_name FROM FamilyRelations WHERE blood_group = 'AB+'",
         verifyFunction: (result) => {
             return result.success &&
                    result.rowCount >= 2 &&
-                   result.columns.length === 5;
+                   result.columns.length === 5 &&
+                   result.values.some(row => {
+                       const nameIndex = result.columns.indexOf('person_name');
+                       const childIndex = result.columns.indexOf('child_name');
+                       return (row[nameIndex] === 'Pari' && row[childIndex] === 'Madasamy') ||
+                              (row[nameIndex] === 'Madasamy');
+                   });
         },
-        successMessage: "REVELATION! The database shows both Kumaran and Madasamy have AB+ blood. The genetic evidence, the blood donation timing, and the hospital records all point to a complex truth that the family must now face..."
+        successMessage: "The complete truth is revealed! Pari and Kural are Madasamy's biological parents. Moved by the child's innocence and his own redemption, Athiyamaan publicly confesses to his past crimes and accepts imprisonment. Agan finds love with Samyuktha, and Kural finally achieves her freedom. The power of love, sacrifice, and redemption triumphs over hatred and honor violence."
     }
 ];
 
@@ -520,6 +574,12 @@ function initializeElements() {
     taskDescription = document.getElementById('task-description');
     hintText = document.getElementById('hint-text');
     chapterIndicator = document.getElementById('chapter-indicator');
+
+    // Concept elements
+    conceptBox = document.getElementById('concept-box');
+    conceptTitle = document.getElementById('concept-title');
+    conceptDescription = document.getElementById('concept-description');
+    conceptExample = document.getElementById('concept-example');
 
     // Input and output elements
     sqlInput = document.getElementById('sql-input');
@@ -667,6 +727,16 @@ function loadChapter(chapterIndex) {
 
     // Update hint
     hintText.textContent = chapter.hint;
+
+    // Update concept (if available)
+    if (chapter.concept && conceptBox) {
+        conceptBox.style.display = 'block';
+        conceptTitle.textContent = chapter.concept.title;
+        conceptDescription.textContent = chapter.concept.description;
+        conceptExample.textContent = chapter.concept.example;
+    } else if (conceptBox) {
+        conceptBox.style.display = 'none';
+    }
 
     // Clear previous results
     resultsContent.innerHTML = '<p class="results-placeholder">Your query results will appear here...</p>';
