@@ -124,6 +124,67 @@ health (INTEGER)
 attack_power (INTEGER)
 kingdom_id (INTEGER)</pre>
                     </div>
+
+                    <div class="schema-table">
+                        <h3>Table: Gadgets</h3>
+                        <pre>gadget_id (INTEGER)
+gadget_name (TEXT)
+category (TEXT)
+power_level (INTEGER)
+uses_remaining (INTEGER)
+first_appearance_year (INTEGER)
+description (TEXT)</pre>
+                    </div>
+
+                    <div class="schema-table">
+                        <h3>Table: GadgetUsage</h3>
+                        <pre>usage_id (INTEGER)
+gadget_id (INTEGER)
+user_name (TEXT)
+usage_date (TEXT)
+success_rate (INTEGER)
+adventure_type (TEXT)</pre>
+                    </div>
+
+                    <div class="schema-table">
+                        <h3>Table: Patients</h3>
+                        <pre>patient_id (INTEGER)
+patient_name (TEXT)
+blood_group (TEXT)
+date_of_birth (TEXT)
+admission_date (TEXT)
+ward_number (INTEGER)</pre>
+                    </div>
+
+                    <div class="schema-table">
+                        <h3>Table: MedicalRecords</h3>
+                        <pre>record_id (INTEGER)
+patient_id (INTEGER)
+diagnosis (TEXT)
+treatment (TEXT)
+doctor_name (TEXT)
+record_date (TEXT)</pre>
+                    </div>
+
+                    <div class="schema-table">
+                        <h3>Table: BloodDonations</h3>
+                        <pre>donation_id (INTEGER)
+donor_name (TEXT)
+donor_blood_group (TEXT)
+recipient_name (TEXT)
+donation_date (TEXT)
+hospital_location (TEXT)</pre>
+                    </div>
+
+                    <div class="schema-table">
+                        <h3>Table: FamilyRelations</h3>
+                        <pre>relation_id (INTEGER)
+person_name (TEXT)
+blood_group (TEXT)
+parent1_name (TEXT)
+parent2_name (TEXT)
+child_name (TEXT)</pre>
+                    </div>
                 </div>
             </section>
 

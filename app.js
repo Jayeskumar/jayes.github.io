@@ -174,6 +174,287 @@ const chapters = [
                    })();
         },
         successMessage: "MAGNIFICENT! The crystals blaze with light! You have mastered the ancient art of SQL aggregation. The kingdoms' combined power flows through you!"
+    },
+    // ============================================
+    // DORAEMON EPISODE - Gadgets Database
+    // ============================================
+    {
+        title: "Doraemon Episode 1: Welcome to the 22nd Century",
+        story: `
+            <p class="story-intro"><strong>Doraemon Episode 1: Welcome to the 22nd Century</strong></p>
+            <p>
+                "Nobita! Wake up!" Doraemon's voice echoes through your room. You rub your eyes and see
+                the blue robotic cat standing in front of a glowing database terminal.
+            </p>
+            <p>
+                "What's this, Doraemon?" you ask curiously.
+            </p>
+            <p>
+                "This is the Future Gadgets Database! It contains all the amazing gadgets from the 22nd century.
+                But there's a problem - the data is scattered everywhere! I need your help to organize it using SQL."
+            </p>
+            <p class="quest-prompt">
+                <strong>🔧 Your first task: Explore all the gadgets in the database!</strong>
+            </p>
+        `,
+        task: "Retrieve all gadgets from the Gadgets table. Use SELECT to see all the amazing inventions.",
+        hint: "Use SELECT * FROM Gadgets; to see all gadget information.",
+        verifyFunction: (result) => {
+            return result.success &&
+                   result.columns.length === 7 &&
+                   result.rowCount === 12;
+        },
+        successMessage: "Wonderful! You've discovered all 12 amazing gadgets from Doraemon's pocket! The Anywhere Door, Take-copter, Time Machine and more await your adventures!"
+    },
+    {
+        title: "Doraemon Episode 2: Finding the Most Powerful Gadgets",
+        story: `
+            <p class="story-intro"><strong>Doraemon Episode 2: Finding the Most Powerful Gadgets</strong></p>
+            <p>
+                Gian and Suneo are bullying the neighborhood kids again! "Doraemon, we need to show them
+                something impressive!" you plead.
+            </p>
+            <p>
+                Doraemon opens his magical pocket and says, "Let's find the most powerful gadgets we have.
+                But first, you need to query the database to find gadgets with high power levels!"
+            </p>
+            <p class="quest-prompt">
+                <strong>🔧 Find all gadgets with power level greater than 85!</strong>
+            </p>
+        `,
+        task: "Query the Gadgets table to find all gadgets where power_level is greater than 85. Order them by power_level descending.",
+        hint: "Use WHERE power_level > 85 and ORDER BY power_level DESC",
+        verifyFunction: (result) => {
+            return result.success &&
+                   result.rowCount >= 5 &&
+                   result.values.every(row => {
+                       const powerIndex = result.columns.indexOf('power_level');
+                       return row[powerIndex] > 85;
+                   }) &&
+                   // Check if sorted descending
+                   (() => {
+                       const powerIndex = result.columns.indexOf('power_level');
+                       for (let i = 0; i < result.values.length - 1; i++) {
+                           if (result.values[i][powerIndex] < result.values[i + 1][powerIndex]) {
+                               return false;
+                           }
+                       }
+                       return true;
+                   })();
+        },
+        successMessage: "Amazing! You found the Time Machine (100), Anywhere Door (95), Time Cloth (92), What-If Phone Booth (90), and Spare Pocket (88)! Gian and Suneo are speechless!"
+    },
+    {
+        title: "Doraemon Episode 3: Categorizing Gadgets",
+        story: `
+            <p class="story-intro"><strong>Doraemon Episode 3: Categorizing Gadgets</strong></p>
+            <p>
+                Shizuka visits your home for a study session. "Nobita, can you help me understand
+                how these gadgets are organized?" she asks sweetly.
+            </p>
+            <p>
+                Doraemon suggests, "Why don't you show Shizuka how many gadgets we have in each category?
+                Use your SQL skills to group and count them!"
+            </p>
+            <p class="quest-prompt">
+                <strong>🔧 Count how many gadgets are in each category!</strong>
+            </p>
+        `,
+        task: "Count the number of gadgets in each category. Show the category and the count, grouped by category. Order by count descending.",
+        hint: "Use GROUP BY and COUNT: SELECT category, COUNT(*) as gadget_count FROM Gadgets GROUP BY category ORDER BY gadget_count DESC",
+        verifyFunction: (result) => {
+            return result.success &&
+                   result.rowCount >= 3 &&
+                   result.columns.length === 2 &&
+                   // Check if sorted descending
+                   (() => {
+                       for (let i = 0; i < result.values.length - 1; i++) {
+                           if (result.values[i][1] < result.values[i + 1][1]) {
+                               return false;
+                           }
+                       }
+                       return true;
+                   })();
+        },
+        successMessage: "Perfect! You showed Shizuka that we have 3 Size Manipulation gadgets, 2 Transportation gadgets, and more! She's so impressed with your SQL skills!"
+    },
+    {
+        title: "Doraemon Episode 4: Tracking Gadget Adventures",
+        story: `
+            <p class="story-intro"><strong>Doraemon Episode 4: Tracking Gadget Adventures</strong></p>
+            <p>
+                "Nobita, we need to prepare a report for the Future Department!" Doraemon says urgently.
+                "They want to know which gadgets have been used most successfully in adventures."
+            </p>
+            <p>
+                "We need to combine the Gadgets table with the GadgetUsage table to see which
+                gadgets have the best success rates!"
+            </p>
+            <p class="quest-prompt">
+                <strong>🔧 Join the tables to find gadget usage statistics!</strong>
+            </p>
+        `,
+        task: "Join the Gadgets and GadgetUsage tables to show gadget names and their success rates. Show only gadgets with success_rate >= 90. Include gadget_name, user_name, and success_rate columns.",
+        hint: "Use JOIN: SELECT g.gadget_name, gu.user_name, gu.success_rate FROM GadgetUsage gu JOIN Gadgets g ON gu.gadget_id = g.gadget_id WHERE gu.success_rate >= 90",
+        verifyFunction: (result) => {
+            return result.success &&
+                   result.columns.length === 3 &&
+                   result.rowCount >= 4 &&
+                   result.columns.includes('gadget_name') &&
+                   result.columns.includes('success_rate') &&
+                   result.values.every(row => {
+                       const successIndex = result.columns.indexOf('success_rate');
+                       return row[successIndex] >= 90;
+                   });
+        },
+        successMessage: "Excellent work! The Future Department is very pleased! The Anywhere Door, Time Machine, Translation Jelly, and What-If Phone Booth all have success rates of 90% or higher!"
+    },
+    // ============================================
+    // TAMIL MOVIE EPISODE - Hospital Database Mystery
+    // ============================================
+    {
+        title: "Mystery Episode 1: The Suspicious Father",
+        story: `
+            <p class="story-intro"><strong>Aganum Innoruthan Maganum - Episode 1: The Suspicious Father</strong></p>
+            <p>
+                The hospital corridors are quiet as Kural's father, a retired detective, sits in his office
+                staring at medical reports with deep concern. His daughter Kural and son-in-law Agan both
+                have O+ blood group, but their newborn son Madasamy has AB+ blood group.
+            </p>
+            <p>
+                "This is impossible according to basic genetics," he mutters. "Two O+ parents cannot
+                have an AB+ child. Something is wrong here."
+            </p>
+            <p>
+                He opens the hospital database terminal with determination in his eyes.
+            </p>
+            <p class="quest-prompt">
+                <strong>🔍 First, let's verify the blood groups of the family members in our database.</strong>
+            </p>
+        `,
+        task: "Query the Patients table to find the blood groups of Agan, Kural, and Madasamy. Select patient_name and blood_group columns only.",
+        hint: "Use WHERE with IN or OR: SELECT patient_name, blood_group FROM Patients WHERE patient_name IN ('Agan', 'Kural', 'Madasamy')",
+        verifyFunction: (result) => {
+            return result.success &&
+                   result.columns.length === 2 &&
+                   result.rowCount === 3 &&
+                   result.columns.includes('patient_name') &&
+                   result.columns.includes('blood_group');
+        },
+        successMessage: "The records confirm it: Agan (O+), Kural (O+), and Madasamy (AB+). The father's suspicions are correct - something doesn't add up genetically!"
+    },
+    {
+        title: "Mystery Episode 2: Investigating Medical Records",
+        story: `
+            <p class="story-intro"><strong>Aganum Innoruthan Maganum - Episode 2: Investigating Medical Records</strong></p>
+            <p>
+                Kural's father leans back in his chair, deep in thought. "I need to check Kural's
+                medical history, especially around the time of delivery. Maybe there's a clue here."
+            </p>
+            <p>
+                He starts searching through the medical records database, looking for any information
+                about Kural's pregnancy and delivery.
+            </p>
+            <p class="quest-prompt">
+                <strong>🔍 Find all medical records related to Kural!</strong>
+            </p>
+        `,
+        task: "Join the Patients and MedicalRecords tables to find all medical records for Kural. Show patient_name, diagnosis, treatment, doctor_name, and record_date.",
+        hint: "Use JOIN: SELECT p.patient_name, mr.diagnosis, mr.treatment, mr.doctor_name, mr.record_date FROM MedicalRecords mr JOIN Patients p ON mr.patient_id = p.patient_id WHERE p.patient_name = 'Kural'",
+        verifyFunction: (result) => {
+            return result.success &&
+                   result.columns.length === 5 &&
+                   result.rowCount >= 2 &&
+                   result.columns.includes('patient_name') &&
+                   result.columns.includes('diagnosis') &&
+                   result.values.every(row => {
+                       const nameIndex = result.columns.indexOf('patient_name');
+                       return row[nameIndex] === 'Kural';
+                   });
+        },
+        successMessage: "Interesting! You found records of Kural's prenatal care and delivery. Dr. Lakshmi handled both. But this doesn't explain the blood group mystery yet..."
+    },
+    {
+        title: "Mystery Episode 3: The Blood Donation Trail",
+        story: `
+            <p class="story-intro"><strong>Aganum Innoruthan Maganum - Episode 3: The Blood Donation Trail</strong></p>
+            <p>
+                "Wait a minute..." Kural's father suddenly sits up straight. "What if Kural needed
+                a blood transfusion during delivery? Let me check the blood donation records!"
+            </p>
+            <p>
+                He opens the blood donations database, his hands trembling slightly. "If there was
+                a complication during delivery, there should be a record of blood donation..."
+            </p>
+            <p class="quest-prompt">
+                <strong>🔍 Find all blood donations where the recipient was Kural!</strong>
+            </p>
+        `,
+        task: "Query the BloodDonations table to find donations where recipient_name is 'Kural'. Show donor_name, donor_blood_group, and donation_date.",
+        hint: "Use WHERE: SELECT donor_name, donor_blood_group, donation_date FROM BloodDonations WHERE recipient_name = 'Kural'",
+        verifyFunction: (result) => {
+            return result.success &&
+                   result.columns.length === 3 &&
+                   result.rowCount >= 1 &&
+                   result.values.some(row => {
+                       const donorIndex = result.columns.indexOf('donor_name');
+                       const bloodGroupIndex = result.columns.indexOf('donor_blood_group');
+                       return row[donorIndex] === 'Kumaran' && row[bloodGroupIndex] === 'AB+';
+                   });
+        },
+        successMessage: "Aha! A breakthrough! Kumaran donated AB+ blood to Kural on December 20, 2023 - just before the delivery! But this still doesn't explain the baby's blood group..."
+    },
+    {
+        title: "Mystery Episode 4: The Shocking Truth",
+        story: `
+            <p class="story-intro"><strong>Aganum Innoruthan Maganum - Episode 4: The Shocking Truth</strong></p>
+            <p>
+                Kural's father's eyes widen as the pieces start falling into place. "Wait... if the
+                baby has AB+ blood group, and both supposed parents have O+ blood group, then..."
+            </p>
+            <p>
+                "I need to check who else has AB+ blood group in this hospital. The biological father
+                must have either A, B, or AB blood group for this to be possible!"
+            </p>
+            <p class="quest-prompt">
+                <strong>🔍 Find all patients with AB+ blood group to identify potential biological fathers!</strong>
+            </p>
+        `,
+        task: "Query the Patients table to find all patients with blood_group = 'AB+'. Show patient_name, blood_group, and date_of_birth. Order by admission_date.",
+        hint: "Use WHERE: SELECT patient_name, blood_group, date_of_birth FROM Patients WHERE blood_group = 'AB+' ORDER BY admission_date",
+        verifyFunction: (result) => {
+            return result.success &&
+                   result.rowCount >= 2 &&
+                   result.values.some(row => {
+                       const nameIndex = result.columns.indexOf('patient_name');
+                       return row[nameIndex] === 'Kumaran' || row[nameIndex] === 'Madasamy';
+                   });
+        },
+        successMessage: "The database reveals: Kumaran has AB+ blood group! He donated blood to Kural just before delivery. Could there be a connection beyond just blood donation?"
+    },
+    {
+        title: "Mystery Episode 5: Uncovering the Family Secret",
+        story: `
+            <p class="story-intro"><strong>Aganum Innoruthan Maganum - Episode 5: The Final Investigation</strong></p>
+            <p>
+                The father takes a deep breath. "This is delicate, but I must know the complete truth.
+                Let me check the family relations database to see if there are any hidden connections."
+            </p>
+            <p>
+                "If my suspicions are correct, this will reveal a truth that could shatter or explain everything."
+            </p>
+            <p class="quest-prompt">
+                <strong>🔍 Find all people with AB+ blood group in the FamilyRelations table and their children!</strong>
+            </p>
+        `,
+        task: "Query the FamilyRelations table to find all people with blood_group = 'AB+'. Show person_name, blood_group, parent1_name, parent2_name, and child_name.",
+        hint: "Use WHERE: SELECT person_name, blood_group, parent1_name, parent2_name, child_name FROM FamilyRelations WHERE blood_group = 'AB+'",
+        verifyFunction: (result) => {
+            return result.success &&
+                   result.rowCount >= 2 &&
+                   result.columns.length === 5;
+        },
+        successMessage: "REVELATION! The database shows both Kumaran and Madasamy have AB+ blood. The genetic evidence, the blood donation timing, and the hospital records all point to a complex truth that the family must now face..."
     }
 ];
 
