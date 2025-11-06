@@ -229,6 +229,47 @@ section:hover {
     color: var(--accent-blue);
 }
 
+/* ===== Concept Box (Learn and Play) ===== */
+.concept-box {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(157, 78, 221, 0.1) 100%);
+    border: 2px solid var(--accent-gold);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.2);
+}
+
+.concept-box strong {
+    color: var(--accent-gold);
+    font-size: 1.1rem;
+}
+
+#concept-title {
+    font-weight: bold;
+    color: #4a90e2;
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+#concept-description {
+    margin: 0.5rem 0;
+    line-height: 1.6;
+    color: var(--text-light);
+}
+
+#concept-example {
+    background: rgba(244, 232, 208, 0.15);
+    padding: 0.75rem;
+    border-radius: var(--radius-sm);
+    margin-top: 0.5rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #a8dadc;
+    border-left: 3px solid var(--accent-purple);
+    white-space: pre-wrap;
+    overflow-x: auto;
+}
+
 /* ===== Schema Panel ===== */
 .schema-panel {
     border-color: var(--accent-blue);
