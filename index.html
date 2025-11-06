@@ -38,14 +38,75 @@
         <!-- Header -->
         <header class="game-header">
             <h1 class="game-title">⚔️ SNU SQL-Quest ⚔️</h1>
-            <p class="game-subtitle">The Data Mage's Journey</p>
+            <p class="game-subtitle">Choose Your Adventure!</p>
             <div class="audio-controls">
                 <button id="toggle-music" class="btn-audio">🔊 Music: ON</button>
             </div>
         </header>
 
+        <!-- Game Selection Screen -->
+        <div id="game-selection" class="game-selection">
+            <div class="selection-header">
+                <h2>🎮 Select Your Adventure</h2>
+                <p>Choose one of three exciting story quests to master SQL!</p>
+            </div>
+
+            <div class="game-cards">
+                <!-- Game 1: Fantasy Quest -->
+                <div class="game-card" data-game="fantasy">
+                    <div class="game-card-icon">⚔️</div>
+                    <h3 class="game-card-title">Data Mage's Journey</h3>
+                    <p class="game-card-description">
+                        Embark on a mystical quest through the kingdoms of Datarealm.
+                        Master SQL spells to defeat dark forces and restore order to the sacred databases.
+                    </p>
+                    <div class="game-card-stats">
+                        <span>📚 5 Chapters</span>
+                        <span>⚡ Fantasy Theme</span>
+                    </div>
+                    <button class="btn-select-game" data-game="fantasy">
+                        Start Quest →
+                    </button>
+                </div>
+
+                <!-- Game 2: Doraemon Adventures -->
+                <div class="game-card" data-game="doraemon">
+                    <div class="game-card-icon">🔧</div>
+                    <h3 class="game-card-title">Doraemon's Gadget Database</h3>
+                    <p class="game-card-description">
+                        Join Nobita and Doraemon in organizing the 22nd-century gadget database!
+                        Use SQL to discover amazing inventions and help solve everyday problems.
+                    </p>
+                    <div class="game-card-stats">
+                        <span>📚 4 Episodes</span>
+                        <span>🤖 Sci-Fi Adventure</span>
+                    </div>
+                    <button class="btn-select-game" data-game="doraemon">
+                        Start Adventure →
+                    </button>
+                </div>
+
+                <!-- Game 3: Mystery Detective -->
+                <div class="game-card" data-game="mystery">
+                    <div class="game-card-icon">🔍</div>
+                    <h3 class="game-card-title">Hospital Mystery Detective</h3>
+                    <p class="game-card-description">
+                        Unravel a complex medical mystery using SQL detective skills!
+                        Follow clues through hospital records to uncover shocking family secrets.
+                    </p>
+                    <div class="game-card-stats">
+                        <span>📚 5 Episodes</span>
+                        <span>🕵️ Mystery Thriller</span>
+                    </div>
+                    <button class="btn-select-game" data-game="mystery">
+                        Start Investigation →
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Game Content -->
-        <div class="game-content">
+        <div class="game-content" style="display: none;">
 
             <!-- Story Panel -->
             <section class="story-panel">
@@ -226,6 +287,9 @@ child_name (TEXT)</pre>
 
             <!-- Navigation -->
             <section class="navigation-panel">
+                <button id="back-to-selection-btn" class="btn-back-selection">
+                    ← Back to Game Selection
+                </button>
                 <button id="next-btn" class="btn-next" style="display: none;">
                     Continue to Next Quest →
                 </button>

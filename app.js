@@ -6,6 +6,8 @@
 let currentChapter = 0;
 let isMusicPlaying = true;
 let schemaVisible = true;
+let selectedGame = null; // Track which game is selected
+let gameChapters = []; // Chapters for the current game
 
 // DOM Elements
 let storyText, taskDescription, hintText, chapterIndicator;
@@ -13,9 +15,32 @@ let sqlInput, resultsContent, feedbackPanel, feedbackContent;
 let executeBtn, clearBtn, nextBtn, restartBtn, toggleSchemaBtn, toggleMusicBtn;
 let schemaContent;
 let ambientAudio, successAudio, errorAudio, pageTurnAudio;
+let gameSelection, gameContent, backToSelectionBtn;
+
+// Game Definitions
+const games = {
+    fantasy: {
+        name: "Data Mage's Journey",
+        icon: "⚔️",
+        startChapter: 0,
+        endChapter: 4
+    },
+    doraemon: {
+        name: "Doraemon's Gadget Database",
+        icon: "🔧",
+        startChapter: 5,
+        endChapter: 8
+    },
+    mystery: {
+        name: "Hospital Mystery Detective",
+        icon: "🔍",
+        startChapter: 9,
+        endChapter: 13
+    }
+};
 
 // Game Chapters and Tasks
-const chapters = [
+const allChapters = [
     {
         title: "Chapter 1: The Elder's Library",
         story: `
@@ -472,8 +497,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const dbInitialized = await initDatabase();
 
     if (dbInitialized) {
-        // Load the first chapter
-        loadChapter(0);
+        // Show game selection screen
+        showGameSelection();
 
         // Start background music
         playAmbientMusic();
@@ -486,6 +511,10 @@ document.addEventListener('DOMContentLoaded', async () => {
  * Initialize DOM element references
  */
 function initializeElements() {
+    // Game screens
+    gameSelection = document.getElementById('game-selection');
+    gameContent = document.querySelector('.game-content');
+
     // Story and task elements
     storyText = document.getElementById('story-text');
     taskDescription = document.getElementById('task-description');
@@ -505,6 +534,7 @@ function initializeElements() {
     restartBtn = document.getElementById('restart-btn');
     toggleSchemaBtn = document.getElementById('toggle-schema');
     toggleMusicBtn = document.getElementById('toggle-music');
+    backToSelectionBtn = document.getElementById('back-to-selection-btn');
 
     // Schema
     schemaContent = document.getElementById('schema-content');
@@ -526,6 +556,21 @@ function initializeElements() {
  * Initialize event listeners
  */
 function initializeEventListeners() {
+    // Game selection buttons
+    const selectGameBtns = document.querySelectorAll('.btn-select-game');
+    selectGameBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const game = e.target.getAttribute('data-game');
+            startGame(game);
+        });
+    });
+
+    // Back to selection button
+    backToSelectionBtn.addEventListener('click', () => {
+        playPageTurn();
+        showGameSelection();
+    });
+
     // Execute button
     executeBtn.addEventListener('click', executeUserQuery);
 
@@ -566,19 +611,53 @@ function initializeEventListeners() {
 }
 
 /**
+ * Show game selection screen
+ */
+function showGameSelection() {
+    gameSelection.style.display = 'block';
+    gameContent.style.display = 'none';
+    selectedGame = null;
+    gameChapters = [];
+}
+
+/**
+ * Start a selected game
+ */
+function startGame(gameType) {
+    playPageTurn();
+    selectedGame = gameType;
+    const game = games[gameType];
+
+    // Extract chapters for this game
+    gameChapters = allChapters.slice(game.startChapter, game.endChapter + 1);
+
+    // Hide selection, show game content
+    gameSelection.style.display = 'none';
+    gameContent.style.display = 'block';
+
+    // Update header subtitle
+    const subtitle = document.querySelector('.game-subtitle');
+    subtitle.textContent = `${game.icon} ${game.name}`;
+
+    // Start from first chapter of selected game
+    currentChapter = 0;
+    loadChapter(0);
+}
+
+/**
  * Load a specific chapter
  */
 function loadChapter(chapterIndex) {
-    if (chapterIndex >= chapters.length) {
+    if (chapterIndex >= gameChapters.length) {
         showVictoryScreen();
         return;
     }
 
     currentChapter = chapterIndex;
-    const chapter = chapters[chapterIndex];
+    const chapter = gameChapters[chapterIndex];
 
     // Update chapter indicator
-    chapterIndicator.textContent = `Chapter ${chapterIndex + 1} of ${chapters.length}`;
+    chapterIndicator.textContent = `Chapter ${chapterIndex + 1} of ${gameChapters.length}`;
 
     // Update story
     storyText.innerHTML = chapter.story;
@@ -622,7 +701,7 @@ function executeUserQuery() {
 
     // Verify if the query is correct for this chapter
     if (result.success) {
-        const chapter = chapters[currentChapter];
+        const chapter = gameChapters[currentChapter];
         const isCorrect = chapter.verifyFunction(result);
 
         if (isCorrect) {
@@ -692,7 +771,7 @@ function showSuccess(message) {
     playSuccess();
 
     // Show next button
-    if (currentChapter < chapters.length - 1) {
+    if (currentChapter < gameChapters.length - 1) {
         nextBtn.style.display = 'block';
     } else {
         // Last chapter completed
@@ -721,16 +800,17 @@ function showError(message) {
  * Show victory screen
  */
 function showVictoryScreen() {
+    const game = games[selectedGame];
     const victoryHTML = `
         <div class="victory-screen">
             <div class="victory-content">
-                <h1>🎉 QUEST COMPLETE! 🎉</h1>
+                <h1>🎉 ${game.icon} QUEST COMPLETE! 🎉</h1>
                 <p>
-                    Congratulations, <strong>Master Data-Mage</strong>!
+                    Congratulations, <strong>SQL Master</strong>!
                 </p>
                 <p>
-                    You have conquered all five challenges and mastered the ancient
-                    art of SQL. The kingdoms of Datarealm are forever in your debt.
+                    You have conquered all ${gameChapters.length} chapters of <strong>${game.name}</strong>
+                    and mastered essential SQL skills!
                 </p>
                 <p>
                     You have learned:
@@ -738,13 +818,16 @@ function showVictoryScreen() {
                     <br>• WHERE clauses
                     <br>• ORDER BY sorting
                     <br>• JOIN operations
-                    <br>• Aggregate functions (SUM, GROUP BY)
+                    <br>• Aggregate functions (SUM, GROUP BY, COUNT)
                 </p>
                 <p style="margin-top: 2rem;">
-                    <strong>Your journey as a Data-Mage has only just begun...</strong>
+                    <strong>Ready for another adventure?</strong>
                 </p>
-                <button class="btn-restart" onclick="location.reload()">
-                    🔄 Begin New Quest
+                <button class="btn-restart" onclick="document.querySelector('.victory-screen').remove(); document.getElementById('back-to-selection-btn').click();">
+                    🎮 Choose Another Game
+                </button>
+                <button class="btn-restart" style="margin-top: 1rem;" onclick="location.reload()">
+                    🔄 Replay This Quest
                 </button>
             </div>
         </div>
